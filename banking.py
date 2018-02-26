@@ -16,14 +16,14 @@ class CheckingAccount(Bank):
 
     def verify_account(self, username, account_no):
         if account_no not in self.accounts.keys():
-            print("We don't have an account by that number.")
+            print("Authentication failed")
             return False
         elif self.accounts[account_no][0] == username:
             print("Account verified.")
             self.account_no = account_no
             return True
         else:
-            print("Incorrect.")
+            print("Authentication failed")
             return False
 
     def account_balance(self):
