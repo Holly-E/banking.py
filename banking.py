@@ -1,20 +1,30 @@
 import random
 
 class Bank:
-    accounts = {}
-    # key => account_no, key[0] => username, key[1] => balance
+    accounts = {"account_no": ["username", "balance"]}
 
     def generate_account(self):
+        """
+        generate new 5 digit acount no and prevent duplicates
+        """
         self.account_no = random.randint(10000, 99999)
+        while self.account_no in self.accounts.keys():
+            self.account_no = random.randint(10000, 99999)
 
 class CheckingAccount(Bank):
     def create_account(self, username, deposit):
+        """
+        create new checking account and provide user account no
+        """
         self.generate_account()
         self.accounts[self.account_no] = [username, deposit]
         print("Your new checking account number is", self.account_no)
         self.account_balance()
 
     def verify_account(self, username, account_no):
+        """
+        verify that the username and account # match our stored values
+        """
         if account_no not in self.accounts.keys():
             print("Authentication failed")
             return False
@@ -27,17 +37,26 @@ class CheckingAccount(Bank):
             return False
 
     def account_balance(self):
+        """
+        provide user the current account balance
+        """
         print("Your account balance is $" + str(self.accounts[self.account_no][1]))
 
     def withdraw(self, withdraw_amount):
+        """
+        ensure the withdraw amount won't bring the account negative, if not perform the withdraw
+        """
         if self.accounts[self.account_no][1] < withdraw_amount:
-            print("Insufficient funds.")
+            print("Insufficient funds")
         else:
             self.accounts[self.account_no][1] -= withdraw_amount
             print("You have withdrawn $" + str(withdraw_amount))
             self.account_balance()
 
     def deposit(self, deposit_amount):
+        """
+        deposit the amount into the checking account
+        """
         self.accounts[self.account_no][1] += deposit_amount
         print("You have deposited $" + str(deposit_amount))
         self.account_balance()
